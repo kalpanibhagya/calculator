@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>Calculator</h1>
+
+        <div class="card">
+            <input type="number" id="a" placeholder="Enter number A">
+            <input type="number" id="b" placeholder="Enter number B">
+
+            <select id="op">
+                <option value="add">Add (+)</option>
+                <option value="subtract">Subtract (-)</option>
+                <option value="multiply">Multiply (×)</option>
+                <option value="divide">Divide (÷)</option>
+            </select>
+
+            <button onclick="calculate()">Calculate</button>
+
+            <h2 id="result"></h2>
+        </div>
+    </div>
+
+    <script>
+        async function calculate() {
+            const a = document.getElementById("a").value;
+            const b = document.getElementById("b").value;
+            const op = document.getElementById("op").value;
+
+            const res = await fetch(`/calculate?a=${a}&b=${b}&op=${op}`);
+            const data = await res.json();
+
+            document.getElementById("result").innerText =
+                data.result !== undefined ? "Result: " + data.result : data.error;
+        }
+    </script>
+</body>
+</html>
